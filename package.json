@@ -10,13 +10,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@biomejs/biome": "^1.7.1",
     "@tsconfig/node18": "^18.2.4",
     "tsx": "^4.7.3",
     "typescript": "^5.4.5",
     "vitest": "^1.5.2"
   },
   "dependencies": {
-    "@biomejs/biome": "^1.7.1",
     "xrpl": "^3.0.0"
   }
 }
