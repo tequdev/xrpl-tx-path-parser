@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@xrplkit/txmeta':
+    specifier: ^1.3.1
+    version: 1.3.1
   xrpl:
     specifier: ^3.0.0
     version: 3.0.0
@@ -770,6 +773,23 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: false
+
+  /@xrplkit/amount@1.2.3:
+    resolution: {integrity: sha512-poV7ym7EhjAlEGym9Kc3AHuy3uuhVW3qnl2KDr8D4zk7hANj7aG6l1XdtWIAGAgBpHnvPEaOG7+llPRRv1irZw==}
+    dependencies:
+      '@xrplkit/xfl': 2.0.2
+    dev: false
+
+  /@xrplkit/txmeta@1.3.1:
+    resolution: {integrity: sha512-iJNtLgXTpbuYBI0VDsXJhi3MHxmsCdWsI3OumETk+21HjxDw1AmPGmVHWu8q8turFth1qzRIAtHjxLHDl307sg==}
+    dependencies:
+      '@xrplkit/amount': 1.2.3
+      '@xrplkit/xfl': 2.0.2
+    dev: false
+
+  /@xrplkit/xfl@2.0.2:
+    resolution: {integrity: sha512-OUZZzSoXSxYxuhBcz08Wb9Xme71PkFYejk3vq4jPzdXreVhF71ZrM6nSObHFgasC8/srWKoqiS37CnB2Ht3k/g==}
     dev: false
 
   /acorn-walk@8.3.2:
