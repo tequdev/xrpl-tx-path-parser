@@ -1,6 +1,6 @@
 import type { TxResponse } from 'xrpl'
 
-import { parsePathPayment } from './PathPayment'
+import { parsePayment } from './Payment'
 import type { Response } from './utils'
 
 export const pathParser = (tx: TxResponse['result']): Response => {
@@ -8,7 +8,7 @@ export const pathParser = (tx: TxResponse['result']): Response => {
   if (tx.meta.TransactionResult !== 'tesSUCCESS') throw new Error('Transaction not successful')
 
   if (tx.TransactionType === 'Payment') {
-    return parsePathPayment(tx)
+    return parsePayment(tx)
   }
 
   throw new Error('Invalid transaction')

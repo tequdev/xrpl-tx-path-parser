@@ -6,6 +6,7 @@ import {
   type Currency,
   type ModifiedNode,
   type Payment,
+  type TransactionMetadata,
   type TxResponse,
   dropsToXrp,
   getBalanceChanges,
@@ -35,7 +36,7 @@ const lsfAMMNode = 0x01000000
 export const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
   a.issuer === b.issuer && a.currency === b.currency
 
-export const getOfferChangesAmount = (tx: TxResponse<Payment>['result']) => {
+export const getOfferChangesAmount = (tx: TxResponse['result']) => {
   return extractExchanges(tx, { collapse: true }) as Record<'takerPaid' | 'takerGot', Balance>[]
 }
 
@@ -57,7 +58,7 @@ export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
   return unique
 }
 
-export const getAccountBalanceChanges = (meta: PaymentMetadata) => {
+export const getAccountBalanceChanges = (meta: TransactionMetadata) => {
   const ammAccounts = getAmmAccounts(meta)
   return getBalanceChanges(meta).map((change) => {
     return {

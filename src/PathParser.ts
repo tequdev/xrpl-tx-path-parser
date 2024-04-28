@@ -8,36 +8,15 @@ import {
   getOfferChangesAmount,
 } from './utils'
 
-const createPaymentDefaultPaths = (source: Balance, destination: Balance): Path[] => {
-  if (source.currency === destination.currency && source.issuer === destination.issuer) {
-    return []
-  }
-  return [
-    [
-      {
-        currency: destination.currency,
-        issuer: destination.issuer,
-      },
-    ],
-  ]
-}
-
-const createSourceAmount = (sendMax: Amount | undefined, amount: Amount): Balance => {
-  if (sendMax) {
-    return amountToBalance(sendMax)
-  }
-  return amountToBalance(amount)
-}
-
-export const parsePathPayment = (tx: TxResponse<Payment>['result']) => {
+export const pathParser = (
+  tx: TxResponse['result'],
+  sourceAccount: string,
+  sourceAmount: Balance,
+  destinationAccount: string,
+  destinationAmount: Balance,
+  txPaths: Path[],
+) => {
   if (typeof tx.meta !== 'object') throw new Error('Invalid transaction metadata')
-  if (!tx.meta.delivered_amount) throw new Error('Invalid transaction type')
-
-  const sourceAmount = createSourceAmount(tx.SendMax, tx.Amount)
-  const destinationAmount = amountToBalance(tx.meta.delivered_amount)
-  const sourceAccount = tx.Account
-  const destinationAccount = tx.Destination
-  const txPaths = tx.Paths || createPaymentDefaultPaths(sourceAmount, destinationAmount)
 
   const offerChanges = getOfferChangesAmount(tx)
   const accountBalanceChanges = getAccountBalanceChanges(tx.meta)
