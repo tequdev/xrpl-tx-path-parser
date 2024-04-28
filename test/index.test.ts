@@ -1,4 +1,4 @@
-import { pathParser } from '../src'
+import pathParser from '../src'
 import iouPayment from './iou-payment.json'
 import nonPathPayment from './non-path-payment.json'
 import offerCreateBridge from './offer-create-bridge.json'
