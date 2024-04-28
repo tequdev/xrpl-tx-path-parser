@@ -24,6 +24,10 @@ const createOfferCreatePaths = (source: Balance, destination: Balance): Path[] =
       {
         currency: 'XRP',
       },
+      {
+        currency: destination.currency,
+        issuer: destination.issuer,
+      },
     ],
   ]
 }

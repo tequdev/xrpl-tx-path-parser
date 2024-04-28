@@ -143,8 +143,13 @@ describe('OfferCreate - bridge', () => {
   const sourceTxn = offerCreateBridge as any
   const result = pathParser(sourceTxn as any)
   it('should paths.length == 2', () => {
-    // bridge path
     expect(result.paths.length).toBe(2)
+  })
+  it('should have direct path and bridged path', () => {
+    // direct path AAA->BBB
+    expect(result.paths[0].length).toBe(1)
+    // bridge path AAA->XRP->BBB
+    expect(result.paths[1].length).toBe(2)
   })
   it('should TakerGets == sourceAmount', () => {
     if (typeof sourceTxn.TakerGets === 'string') {
