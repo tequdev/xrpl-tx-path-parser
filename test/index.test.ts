@@ -2,6 +2,7 @@ import { pathParser } from '../src'
 import iouPayment from './iou-payment.json'
 import nonPathPayment from './non-path-payment.json'
 import pathPayment from './path-payment.json'
+import xrpPayment from './xrp-payment.json'
 
 describe('Path Payment', () => {
   const sourceTxn = pathPayment as any
@@ -73,6 +74,39 @@ describe('non-Path Payment', () => {
 
 describe('IOU Payment', () => {
   const sourceTxn = iouPayment as any
+  const result = pathParser(sourceTxn as any)
+  it('should paths.length == 0', () => {
+    // direct path
+    expect(result.paths.length).toBe(0)
+  })
+  it('should SendMax == Amount', () => {
+    if (typeof sourceTxn.Amount === 'string') {
+      expect(result.sourceAmount.currency).toEqual('XRP')
+      expect(result.sourceAmount.issuer).toEqual(undefined)
+    } else {
+      expect(result.sourceAmount.currency).toEqual(sourceTxn.Amount.currency)
+      expect(result.sourceAmount.issuer).toEqual(sourceTxn.Amount.issuer)
+    }
+  })
+  it('should Amount == destinationAmount', () => {
+    if (typeof sourceTxn.meta.delivered_amount === 'string') {
+      expect(result.destinationAmount.currency).toEqual('XRP')
+      expect(result.destinationAmount.issuer).toEqual(undefined)
+    } else {
+      expect(result.destinationAmount.currency).toEqual(sourceTxn.meta.delivered_amount.currency)
+      expect(result.destinationAmount.issuer).toEqual(sourceTxn.meta.delivered_amount.issuer)
+    }
+  })
+  it('should Account == sourceAccount', () => {
+    expect(result.sourceAccount).toEqual(sourceTxn.Account)
+  })
+  it('should Account == destinationAccount', () => {
+    expect(result.destinationAccount).toEqual(sourceTxn.Destination)
+  })
+})
+
+describe('XRP Payment', () => {
+  const sourceTxn = xrpPayment as any
   const result = pathParser(sourceTxn as any)
   it('should paths.length == 0', () => {
     // direct path

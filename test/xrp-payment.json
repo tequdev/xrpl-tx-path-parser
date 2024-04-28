@@ -1,0 +1,64 @@
+{
+  "Account": "rD9GiEwYsdGBFeZ4QjpybASfbvv2Z5yPGW",
+  "Amount": "20000000",
+  "DeliverMax": "20000000",
+  "Destination": "rQHHbAP69AX1iVAtDnjyZGdZQycc4PAqrp",
+  "Fee": "12",
+  "LastLedgerSequence": 87614439,
+  "Sequence": 87439241,
+  "SigningPubKey": "038C4169AA1ED36AB1C6481C3C234C93228AB4249788C7AB9CCFB2BFB1D56946FF",
+  "TransactionType": "Payment",
+  "TxnSignature": "3045022100AF871A8871EB384DFDC3865F7F8DBF34726DE8D4CE160618A66C7861F75E1CAF022037F5B2E09C31E6C1ACA0BA885D8C18303B1E314A70AACCEB2EE1C469B9AB33AA",
+  "ctid": "C538E3DF001E0000",
+  "date": 767602362,
+  "hash": "E0631C020B69AFA5ACD5ECA2928A4434E4D088632416B373AC39D42002A654A1",
+  "inLedger": 87614431,
+  "ledger_index": 87614431,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rQHHbAP69AX1iVAtDnjyZGdZQycc4PAqrp",
+            "Balance": "209449285",
+            "FirstNFTokenSequence": 82848185,
+            "Flags": 0,
+            "MintedNFTokens": 10,
+            "OwnerCount": 12,
+            "Sequence": 82849014
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "4CB35000889425C872BB6FDC87CB11F232B09E4A9296B467192670DA7F229D2C",
+          "PreviousFields": {
+            "Balance": "189449285"
+          },
+          "PreviousTxnID": "2FA7A24A5CADD18AFECC5151926806E113B156E278677ADE5A228E562C9E8224",
+          "PreviousTxnLgrSeq": 87614419
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rD9GiEwYsdGBFeZ4QjpybASfbvv2Z5yPGW",
+            "Balance": "79999988",
+            "Flags": 0,
+            "OwnerCount": 0,
+            "Sequence": 87439242
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "FF852B27A8E1B91EDA7AB26D88A3E534DBCC6DCE0BD63599A387D94AA7178FA6",
+          "PreviousFields": {
+            "Balance": "100000000",
+            "Sequence": 87439241
+          },
+          "PreviousTxnID": "87A64EEA04ACE281DBE1018560DD4281F20C0C0EF9533A327503360108995466",
+          "PreviousTxnLgrSeq": 87439241
+        }
+      }
+    ],
+    "TransactionIndex": 30,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": "20000000"
+  },
+  "validated": true
+}
