@@ -60,7 +60,7 @@ export const pathParser = (
         const offer = stepOffers(current_currency, step as Currency)
         const amm = stepAMMs(current_currency, step as Currency)
 
-        const from =
+        let from =
           offer && amm
             ? //
               {
@@ -71,7 +71,7 @@ export const pathParser = (
               ? offer.takerPaid
               : amm?.ammGot
 
-        const to =
+        let to =
           offer && amm
             ? {
                 ...offer.takerGot,
@@ -81,7 +81,12 @@ export const pathParser = (
               ? offer.takerGot
               : amm?.ammPaid
 
-        if (!from || !to) throw new Error('Invalid Offer/AMM')
+        if (!from) {
+          from = { ...current_currency, value: '0' }
+        }
+        if (!to) {
+          to = { ...(step as Balance), value: '0' }
+        }
 
         current_currency = to
 

@@ -1,6 +1,8 @@
+import { Currency, convertHexToString } from 'xrpl'
 import { pathParser } from '../src'
 import iouPayment from './iou-payment.json'
 import nonPathPayment from './non-path-payment.json'
+import offerCreateBridge from './offer-create-bridge.json'
 import pathPayment from './path-payment.json'
 import xrpPayment from './xrp-payment.json'
 
@@ -138,6 +140,35 @@ describe('XRP Payment', () => {
   })
 })
 
-describe('OfferCreate', () => {
-  it.todo('')
+describe('OfferCreate - bridge', () => {
+  const sourceTxn = offerCreateBridge as any
+  const result = pathParser(sourceTxn as any)
+  it('should paths.length == 2', () => {
+    // bridge path
+    expect(result.paths.length).toBe(2)
+  })
+  it('should TakerGets == sourceAmount', () => {
+    if (typeof sourceTxn.TakerGets === 'string') {
+      expect(result.sourceAmount.currency).toEqual('XRP')
+      expect(result.sourceAmount.issuer).toEqual(undefined)
+    } else {
+      expect(result.sourceAmount.currency).toEqual(sourceTxn.TakerGets.currency)
+      expect(result.sourceAmount.issuer).toEqual(sourceTxn.TakerGets.issuer)
+    }
+  })
+  it('should TakerPays == destinationAmount', () => {
+    if (typeof sourceTxn.TakerPays === 'string') {
+      expect(result.destinationAmount.currency).toEqual('XRP')
+      expect(result.destinationAmount.issuer).toEqual(undefined)
+    } else {
+      expect(result.destinationAmount.currency).toEqual(sourceTxn.TakerPays.currency)
+      expect(result.destinationAmount.issuer).toEqual(sourceTxn.TakerPays.issuer)
+    }
+  })
+  it('should Account == sourceAccount', () => {
+    expect(result.sourceAccount).toEqual(sourceTxn.Account)
+  })
+  it('should Account == destinationAccount', () => {
+    expect(result.destinationAccount).toEqual(sourceTxn.Account)
+  })
 })

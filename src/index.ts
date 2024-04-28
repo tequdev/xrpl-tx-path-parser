@@ -1,5 +1,6 @@
 import type { TxResponse } from 'xrpl'
 
+import { parseOfferCreate } from './OfferCreate'
 import { parsePayment } from './Payment'
 import type { Response } from './utils'
 
@@ -9,6 +10,9 @@ export const pathParser = (tx: TxResponse['result']): Response => {
 
   if (tx.TransactionType === 'Payment') {
     return parsePayment(tx)
+  }
+  if (tx.TransactionType === 'OfferCreate') {
+    return parseOfferCreate(tx)
   }
 
   throw new Error('Invalid transaction')
