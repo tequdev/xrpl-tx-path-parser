@@ -3,6 +3,7 @@ import { extractExchanges } from '@xrplkit/txmeta'
 import {
   type Amount,
   type Balance,
+  type Currency,
   type ModifiedNode,
   type Payment,
   type TxResponse,
@@ -29,6 +30,9 @@ export type Response = {
 }
 
 const lsfAMMNode = 0x01000000
+
+export const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
+  a.issuer === b.issuer && a.currency === b.currency
 
 export const getOfferChangesAmount = (tx: TxResponse<Payment>['result']) => {
   return extractExchanges(tx, { collapse: true }) as Record<'takerPaid' | 'takerGot', Balance>[]

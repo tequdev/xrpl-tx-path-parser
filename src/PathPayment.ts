@@ -1,28 +1,47 @@
-import type { Balance, Currency, Payment, TxResponse } from 'xrpl'
+import type { Amount, Balance, Currency, Path, Payment, TxResponse } from 'xrpl'
 import {
   type Response,
   amountToBalance,
+  equalCurrency,
   getAccountBalanceChanges,
   getAmmAccounts,
   getOfferChangesAmount,
 } from './utils'
+
+const createPaymentDefaultPaths = (source: Balance, destination: Balance): Path[] => {
+  return [
+    [
+      {
+        currency: destination.currency,
+        issuer: destination.issuer,
+      },
+    ],
+  ]
+}
+
+const createSourceAmount = (sendMax: Amount | undefined, amount: Amount): Balance => {
+  if (sendMax) {
+    return amountToBalance(sendMax)
+  }
+  return amountToBalance(amount)
+}
 
 export const parsePathPayment = (tx: TxResponse<Payment>['result']) => {
   if (typeof tx.meta !== 'object') throw new Error('Invalid transaction metadata')
   if (!tx.meta.delivered_amount) throw new Error('Invalid transaction type')
 
   if (!tx.SendMax) throw new Error('SendMax not found / Not a Path Payment')
-  if (!tx.Paths) throw new Error('Paths not found / Not a Path Payment')
+
+  const sourceAmount = createSourceAmount(tx.SendMax, tx.Amount)
+  const destinationAmount = amountToBalance(tx.meta.delivered_amount)
+  const sourceAccount = tx.Account
+  const destinationAccount = tx.Destination
+  const txPaths = tx.Paths || createPaymentDefaultPaths(sourceAmount, destinationAmount)
 
   const offerChanges = getOfferChangesAmount(tx)
   const accountBalanceChanges = getAccountBalanceChanges(tx.meta)
 
   const ammAccounts = getAmmAccounts(tx.meta)
-  const sourceAmount = amountToBalance(tx.SendMax)
-  const destinationAmount = amountToBalance(tx.meta.delivered_amount)
-
-  const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
-    a.issuer === b.issuer && a.currency === b.currency
 
   const stepOffers = (
     current_currency: Currency | Balance,
@@ -53,7 +72,7 @@ export const parsePathPayment = (tx: TxResponse<Payment>['result']) => {
     }
   }
 
-  const paths = tx.Paths.map((path): Response['paths'][number] => {
+  const paths = txPaths.map((path): Response['paths'][number] => {
     let current_currency: Balance = sourceAmount
     return path.map((step) => {
       if (step.issuer || step.currency) {
@@ -122,8 +141,8 @@ export const parsePathPayment = (tx: TxResponse<Payment>['result']) => {
   })
 
   const result: Response = {
-    sourceAccount: tx.Account,
-    destinationAccount: tx.Destination,
+    sourceAccount,
+    destinationAccount,
     sourceAmount,
     destinationAmount,
     paths,
