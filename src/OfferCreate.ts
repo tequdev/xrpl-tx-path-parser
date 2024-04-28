@@ -1,6 +1,6 @@
 import type { Balance, OfferCreate, Path, TxResponse } from 'xrpl'
 import { pathParser } from './PathParser'
-import { amountToBalance, getAccountBalanceChanges } from './utils'
+import { amountToBalance, getAccountBalanceChanges, getOfferChangesAmount } from './utils'
 
 const createOfferCreatePaths = (source: Balance, destination: Balance): Path[] => {
   if (source.currency === 'XRP' || destination.currency === 'XRP') {
@@ -33,19 +33,29 @@ export const parseOfferCreate = (tx: TxResponse<OfferCreate>['result']) => {
 
   const accountBalanceChanges = getAccountBalanceChanges(tx.meta)
   const balances = accountBalanceChanges.find((change) => change.account === tx.Account)?.balances
+
+  const offerChanges = getOfferChangesAmount(tx)
+
   if (!balances) throw new Error('Account balance not found')
-  const sourceAmount = balances.find(
+  let sourceAmount = balances.find(
     (balance) =>
       amountToBalance(tx.TakerGets).currency === balance.currency &&
       amountToBalance(tx.TakerGets).issuer === balance.issuer,
   )
-  const destinationAmount = balances.find(
+  let destinationAmount = balances.find(
     (balance) =>
       amountToBalance(tx.TakerPays).currency === balance.currency &&
       amountToBalance(tx.TakerPays).issuer === balance.issuer,
   )
 
-  if (!sourceAmount || !destinationAmount) throw new Error('Source or destination amount not found')
+  if (offerChanges.length === 0) {
+    sourceAmount = amountToBalance(tx.TakerGets)
+    sourceAmount.value = '0'
+    destinationAmount = amountToBalance(tx.TakerPays)
+    destinationAmount.value = '0'
+  } else if (!sourceAmount || !destinationAmount) {
+    throw new Error('Invalid OfferCreate execution')
+  }
 
   const sourceAccount = tx.Account
   const destinationAccount = tx.Account
