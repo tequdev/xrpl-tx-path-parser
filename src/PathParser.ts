@@ -96,13 +96,20 @@ export const pathParser = (
       if (step.account) {
         // type: 1(account)(rippling)
         const change = accountBalanceChanges.find((change) => change.account === step.account)
-        if (!change) throw new Error('Account Balance Change not found')
-        const from = change.balances.find((balance) => !balance.value.includes('-'))
-        const to = change.balances.find((balance) => balance.value.includes('-'))
+        let from: Balance | undefined
+        let to: Balance | undefined
+        if (!change) {
+          from = { ...current_currency, value: '0' }
+          to = { ...destinationAmount, value: '0' }
+        } else {
+          from = change.balances.find((balance) => !balance.value.startsWith('-'))
+          to = change.balances.find((balance) => balance.value.startsWith('-'))
+        }
 
         if (!from || !to) throw new Error('Invalid Account Balance Change')
 
         current_currency = to
+
         return {
           rippling: step.account,
           from: from,
