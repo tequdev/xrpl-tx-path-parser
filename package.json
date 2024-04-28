@@ -15,8 +15,12 @@
       "default": "./dist/index.mjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "pkgroll",
+    "prepublish": "pnpm build",
     "test": "vitest"
   },
   "keywords": [],
