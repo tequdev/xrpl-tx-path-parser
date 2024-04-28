@@ -34,7 +34,7 @@ describe('Path Payment', () => {
   it('should Account == sourceAccount', () => {
     expect(result.sourceAccount).toEqual(sourceTxn.Account)
   })
-  it('should Account == destinationAccount', () => {
+  it('should Destination == destinationAccount', () => {
     expect(result.destinationAccount).toEqual(sourceTxn.Destination)
   })
 })
@@ -67,7 +67,7 @@ describe('non-Path Payment', () => {
   it('should Account == sourceAccount', () => {
     expect(result.sourceAccount).toEqual(sourceTxn.Account)
   })
-  it('should Account == destinationAccount', () => {
+  it('should Destination == destinationAccount', () => {
     expect(result.destinationAccount).toEqual(sourceTxn.Destination)
   })
 })
@@ -100,7 +100,7 @@ describe('IOU Payment', () => {
   it('should Account == sourceAccount', () => {
     expect(result.sourceAccount).toEqual(sourceTxn.Account)
   })
-  it('should Account == destinationAccount', () => {
+  it('should Destination == destinationAccount', () => {
     expect(result.destinationAccount).toEqual(sourceTxn.Destination)
   })
 })
@@ -133,7 +133,7 @@ describe('XRP Payment', () => {
   it('should Account == sourceAccount', () => {
     expect(result.sourceAccount).toEqual(sourceTxn.Account)
   })
-  it('should Account == destinationAccount', () => {
+  it('should Destination == destinationAccount', () => {
     expect(result.destinationAccount).toEqual(sourceTxn.Destination)
   })
 })
