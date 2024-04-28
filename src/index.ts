@@ -8,8 +8,7 @@ export const pathParser = (tx: TxResponse['result']): Response => {
   if (tx.meta.TransactionResult !== 'tesSUCCESS') throw new Error('Transaction not successful')
 
   if (tx.TransactionType === 'Payment') {
-    if (tx.Paths) return parsePathPayment(tx)
-    if (tx.SendMax) return parsePathPayment(tx)
+    return parsePathPayment(tx)
   }
 
   throw new Error('Invalid transaction')

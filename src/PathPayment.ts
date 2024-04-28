@@ -9,6 +9,9 @@ import {
 } from './utils'
 
 const createPaymentDefaultPaths = (source: Balance, destination: Balance): Path[] => {
+  if (source.currency === destination.currency && source.issuer === destination.issuer) {
+    return []
+  }
   return [
     [
       {
@@ -29,8 +32,6 @@ const createSourceAmount = (sendMax: Amount | undefined, amount: Amount): Balanc
 export const parsePathPayment = (tx: TxResponse<Payment>['result']) => {
   if (typeof tx.meta !== 'object') throw new Error('Invalid transaction metadata')
   if (!tx.meta.delivered_amount) throw new Error('Invalid transaction type')
-
-  if (!tx.SendMax) throw new Error('SendMax not found / Not a Path Payment')
 
   const sourceAmount = createSourceAmount(tx.SendMax, tx.Amount)
   const destinationAmount = amountToBalance(tx.meta.delivered_amount)

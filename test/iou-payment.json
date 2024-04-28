@@ -1,0 +1,136 @@
+{
+  "Account": "rD1zJnkd4iGRDTKD1sFHAAoHXrfr8gvY3k",
+  "Amount": {
+    "currency": "ZRP",
+    "issuer": "rZapJ1PZ297QAEXRGu3SZkAiwXbA7BNoe",
+    "value": "2.5"
+  },
+  "DeliverMax": {
+    "currency": "ZRP",
+    "issuer": "rZapJ1PZ297QAEXRGu3SZkAiwXbA7BNoe",
+    "value": "2.5"
+  },
+  "Destination": "rsSDTfFq8zgLFcccw6vY84uBdwdU6TsF4T",
+  "Fee": "10",
+  "Flags": 0,
+  "LastLedgerSequence": 87614261,
+  "Memos": [
+    {
+      "Memo": {
+        "MemoData": "47796D20566963746F727920526577617264",
+        "MemoFormat": "6C6F616E2D666F72"
+      }
+    }
+  ],
+  "Sequence": 81100635,
+  "SigningPubKey": "EDF9F9E703ECCFCA89B06BDB80048329DE4D90EA83AE0A8772B5D8C520C916CF81",
+  "SourceTag": 13888813,
+  "TransactionType": "Payment",
+  "TxnSignature": "6B62C4549933E54A75D3EBF2B03A42301DC1C22DE1B4405FC6DDA7A1012A4238C8460CACD6B33CBF3F522DF00AA21B4CC838B83E8737BDA5F2DBA4B24D290708",
+  "ctid": "C538E323000A0000",
+  "date": 767601661,
+  "hash": "185F3ECF36304F27102E6C2C3A07F65449E4A59F03F3049377BDB51BE9E94899",
+  "inLedger": 87614243,
+  "ledger_index": 87614243,
+  "meta": {
+    "AffectedNodes": [
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "ZRP",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "-52.6591341486901"
+            },
+            "Flags": 2228224,
+            "HighLimit": {
+              "currency": "ZRP",
+              "issuer": "rsSDTfFq8zgLFcccw6vY84uBdwdU6TsF4T",
+              "value": "1589000"
+            },
+            "HighNode": "0",
+            "LowLimit": {
+              "currency": "ZRP",
+              "issuer": "rZapJ1PZ297QAEXRGu3SZkAiwXbA7BNoe",
+              "value": "0"
+            },
+            "LowNode": "4"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "1D08EDA710B1CA8B7BB41A78A9F055D033B54A6B6899B2FDF67FFC240C44CB7A",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "ZRP",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "-50.1591341486901"
+            }
+          },
+          "PreviousTxnID": "641B5D652F279F72963898D9E4EC7A6C9FBD52F6421252DF7C0DD486D45A4E7D",
+          "PreviousTxnLgrSeq": 87614219
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Account": "rD1zJnkd4iGRDTKD1sFHAAoHXrfr8gvY3k",
+            "Balance": "15703597",
+            "Flags": 0,
+            "OwnerCount": 1,
+            "Sequence": 81100636
+          },
+          "LedgerEntryType": "AccountRoot",
+          "LedgerIndex": "461D6C0D4E4A946A2757D30311EDBC717771B75703E27623FAA41051894EEE5D",
+          "PreviousFields": {
+            "Balance": "15703607",
+            "Sequence": 81100635
+          },
+          "PreviousTxnID": "345EB7638E1AA6225459267CCF3BE96798D1A6A9086EBB225CD1D2200C9274CD",
+          "PreviousTxnLgrSeq": 87614229
+        }
+      },
+      {
+        "ModifiedNode": {
+          "FinalFields": {
+            "Balance": {
+              "currency": "ZRP",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "-211899.4"
+            },
+            "Flags": 131072,
+            "HighLimit": {
+              "currency": "ZRP",
+              "issuer": "rD1zJnkd4iGRDTKD1sFHAAoHXrfr8gvY3k",
+              "value": "1589000"
+            },
+            "HighNode": "0",
+            "LowLimit": {
+              "currency": "ZRP",
+              "issuer": "rZapJ1PZ297QAEXRGu3SZkAiwXbA7BNoe",
+              "value": "0"
+            },
+            "LowNode": "0"
+          },
+          "LedgerEntryType": "RippleState",
+          "LedgerIndex": "BBC6A67DE1A3C5F2BAAD4F9D6A22133FE3760CC4E8D4742961846BDDA0ECB7CA",
+          "PreviousFields": {
+            "Balance": {
+              "currency": "ZRP",
+              "issuer": "rrrrrrrrrrrrrrrrrrrrBZbvji",
+              "value": "-211901.9"
+            }
+          },
+          "PreviousTxnID": "345EB7638E1AA6225459267CCF3BE96798D1A6A9086EBB225CD1D2200C9274CD",
+          "PreviousTxnLgrSeq": 87614229
+        }
+      }
+    ],
+    "TransactionIndex": 10,
+    "TransactionResult": "tesSUCCESS",
+    "delivered_amount": {
+      "currency": "ZRP",
+      "issuer": "rZapJ1PZ297QAEXRGu3SZkAiwXbA7BNoe",
+      "value": "2.5"
+    }
+  },
+  "validated": true
+}

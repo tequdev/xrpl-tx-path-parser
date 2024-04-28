@@ -1,73 +1,109 @@
 import { pathParser } from '../src'
+import iouPayment from './iou-payment.json'
 import nonPathPayment from './non-path-payment.json'
 import pathPayment from './path-payment.json'
 
 describe('Path Payment', () => {
-  const result = pathParser(pathPayment as any)
+  const sourceTxn = pathPayment as any
+  const result = pathParser(sourceTxn)
   it('should Tx.Paths.length == paths.length', () => {
-    expect(result.paths.length).toBe(pathPayment.Paths.length)
+    expect(result.paths.length).toBe(sourceTxn.Paths.length)
     result.paths.forEach((path, i) => {
-      expect(path.length).toBe(pathPayment.Paths[i].length)
+      expect(path.length).toBe(sourceTxn.Paths[i].length)
     })
   })
   it('should SendMax == sourceAmount', () => {
-    if (typeof pathPayment.SendMax === 'string') {
+    if (typeof sourceTxn.SendMax === 'string') {
       expect(result.sourceAmount.currency).toEqual('XRP')
       expect(result.sourceAmount.issuer).toEqual(undefined)
     } else {
-      expect(result.sourceAmount.currency).toEqual(pathPayment.SendMax.currency)
-      expect(result.sourceAmount.issuer).toEqual(pathPayment.SendMax.issuer)
+      expect(result.sourceAmount.currency).toEqual(sourceTxn.SendMax.currency)
+      expect(result.sourceAmount.issuer).toEqual(sourceTxn.SendMax.issuer)
     }
   })
   it('should Amount == destinationAmount', () => {
-    if (typeof pathPayment.meta.delivered_amount === 'string') {
+    if (typeof sourceTxn.meta.delivered_amount === 'string') {
       expect(result.destinationAmount.currency).toEqual('XRP')
       expect(result.destinationAmount.issuer).toEqual(undefined)
     } else {
-      expect(result.destinationAmount.currency).toEqual(pathPayment.meta.delivered_amount.currency)
-      expect(result.destinationAmount.issuer).toEqual(pathPayment.meta.delivered_amount.issuer)
+      expect(result.destinationAmount.currency).toEqual(sourceTxn.meta.delivered_amount.currency)
+      expect(result.destinationAmount.issuer).toEqual(sourceTxn.meta.delivered_amount.issuer)
     }
   })
   it('should Account == sourceAccount', () => {
-    expect(result.sourceAccount).toEqual(pathPayment.Account)
+    expect(result.sourceAccount).toEqual(sourceTxn.Account)
   })
   it('should Account == destinationAccount', () => {
-    expect(result.destinationAccount).toEqual(pathPayment.Destination)
+    expect(result.destinationAccount).toEqual(sourceTxn.Destination)
   })
 })
 
 describe('non-Path Payment', () => {
-  const result = pathParser(nonPathPayment as any)
+  const sourceTxn = nonPathPayment as any
+  const result = pathParser(sourceTxn as any)
   it('should paths.length == 1', () => {
     // direct path
     expect(result.paths.length).toBe(1)
   })
   it('should SendMax == sourceAmount', () => {
-    if (typeof nonPathPayment.SendMax === 'string') {
+    if (typeof sourceTxn.SendMax === 'string') {
       expect(result.sourceAmount.currency).toEqual('XRP')
       expect(result.sourceAmount.issuer).toEqual(undefined)
     } else {
-      expect(result.sourceAmount.currency).toEqual(nonPathPayment.SendMax.currency)
-      expect(result.sourceAmount.issuer).toEqual(nonPathPayment.SendMax.issuer)
+      expect(result.sourceAmount.currency).toEqual(sourceTxn.SendMax.currency)
+      expect(result.sourceAmount.issuer).toEqual(sourceTxn.SendMax.issuer)
     }
   })
   it('should Amount == destinationAmount', () => {
-    if (typeof nonPathPayment.meta.delivered_amount === 'string') {
+    if (typeof sourceTxn.meta.delivered_amount === 'string') {
       expect(result.destinationAmount.currency).toEqual('XRP')
       expect(result.destinationAmount.issuer).toEqual(undefined)
     } else {
-      expect(result.destinationAmount.currency).toEqual(nonPathPayment.meta.delivered_amount.currency)
-      expect(result.destinationAmount.issuer).toEqual(nonPathPayment.meta.delivered_amount.issuer)
+      expect(result.destinationAmount.currency).toEqual(sourceTxn.meta.delivered_amount.currency)
+      expect(result.destinationAmount.issuer).toEqual(sourceTxn.meta.delivered_amount.issuer)
     }
   })
   it('should Account == sourceAccount', () => {
-    expect(result.sourceAccount).toEqual(nonPathPayment.Account)
+    expect(result.sourceAccount).toEqual(sourceTxn.Account)
   })
   it('should Account == destinationAccount', () => {
-    expect(result.destinationAccount).toEqual(nonPathPayment.Destination)
+    expect(result.destinationAccount).toEqual(sourceTxn.Destination)
   })
-  console.log(JSON.stringify(result.paths, null, 2))
 })
+
+describe('IOU Payment', () => {
+  const sourceTxn = iouPayment as any
+  const result = pathParser(sourceTxn as any)
+  it('should paths.length == 0', () => {
+    // direct path
+    expect(result.paths.length).toBe(0)
+  })
+  it('should SendMax == Amount', () => {
+    if (typeof sourceTxn.Amount === 'string') {
+      expect(result.sourceAmount.currency).toEqual('XRP')
+      expect(result.sourceAmount.issuer).toEqual(undefined)
+    } else {
+      expect(result.sourceAmount.currency).toEqual(sourceTxn.Amount.currency)
+      expect(result.sourceAmount.issuer).toEqual(sourceTxn.Amount.issuer)
+    }
+  })
+  it('should Amount == destinationAmount', () => {
+    if (typeof sourceTxn.meta.delivered_amount === 'string') {
+      expect(result.destinationAmount.currency).toEqual('XRP')
+      expect(result.destinationAmount.issuer).toEqual(undefined)
+    } else {
+      expect(result.destinationAmount.currency).toEqual(sourceTxn.meta.delivered_amount.currency)
+      expect(result.destinationAmount.issuer).toEqual(sourceTxn.meta.delivered_amount.issuer)
+    }
+  })
+  it('should Account == sourceAccount', () => {
+    expect(result.sourceAccount).toEqual(sourceTxn.Account)
+  })
+  it('should Account == destinationAccount', () => {
+    expect(result.destinationAccount).toEqual(sourceTxn.Destination)
+  })
+})
+
 describe('OfferCreate', () => {
   it.todo('')
 })

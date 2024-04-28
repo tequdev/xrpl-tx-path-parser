@@ -7,6 +7,7 @@ import {
   type ModifiedNode,
   type Payment,
   type TxResponse,
+  dropsToXrp,
   getBalanceChanges,
   isModifiedNode,
 } from 'xrpl'
@@ -70,7 +71,7 @@ export const amountToBalance = (amount: Amount): Balance => {
   if (typeof amount === 'string') {
     return {
       currency: 'XRP',
-      value: amount,
+      value: dropsToXrp(amount).toString(),
     }
   }
   return amount
