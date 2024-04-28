@@ -1,4 +1,3 @@
-import { Currency, convertHexToString } from 'xrpl'
 import { pathParser } from '../src'
 import iouPayment from './iou-payment.json'
 import nonPathPayment from './non-path-payment.json'

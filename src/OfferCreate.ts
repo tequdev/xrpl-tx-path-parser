@@ -1,4 +1,4 @@
-import type { Amount, Balance, OfferCreate, Path, Payment, TxResponse } from 'xrpl'
+import type { Balance, OfferCreate, Path, TxResponse } from 'xrpl'
 import { pathParser } from './PathParser'
 import { amountToBalance, getAccountBalanceChanges } from './utils'
 

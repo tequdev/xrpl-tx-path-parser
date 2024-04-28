@@ -1,12 +1,5 @@
-import type { Amount, Balance, Currency, Path, Payment, TxResponse } from 'xrpl'
-import {
-  type Response,
-  amountToBalance,
-  equalCurrency,
-  getAccountBalanceChanges,
-  getAmmAccounts,
-  getOfferChangesAmount,
-} from './utils'
+import type { Balance, Currency, Path, TxResponse } from 'xrpl'
+import { type Response, equalCurrency, getAccountBalanceChanges, getAmmAccounts, getOfferChangesAmount } from './utils'
 
 export const pathParser = (
   tx: TxResponse['result'],
