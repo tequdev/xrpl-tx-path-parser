@@ -37,6 +37,7 @@ export const parseOfferCreate = (tx: TxResponse<OfferCreate>['result']) => {
 
   const accountBalanceChanges = getAccountBalanceChanges(tx.meta)
   const balances = accountBalanceChanges.find((change) => change.account === tx.Account)?.balances
+  const ammBalanceChanges = accountBalanceChanges.filter((change) => change.isAMM)
 
   const offerChanges = getOfferChangesAmount(tx)
 
@@ -52,7 +53,7 @@ export const parseOfferCreate = (tx: TxResponse<OfferCreate>['result']) => {
       amountToBalance(tx.TakerPays).issuer === balance.issuer,
   )
 
-  if (offerChanges.length === 0) {
+  if (offerChanges.length === 0 && ammBalanceChanges.length === 0) {
     sourceAmount = amountToBalance(tx.TakerGets)
     sourceAmount.value = '0'
     destinationAmount = amountToBalance(tx.TakerPays)
