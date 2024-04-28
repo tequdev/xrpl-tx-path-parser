@@ -1,6 +1,8 @@
 import type { Balance, Currency, Path, TxResponse } from 'xrpl'
 import { type Response, equalCurrency, getAccountBalanceChanges, getAmmAccounts, getOfferChangesAmount } from './utils'
 
+import { Decimal } from 'decimal.js'
+
 export const pathParser = (
   tx: TxResponse['result'],
   sourceAccount: string,
@@ -58,7 +60,7 @@ export const pathParser = (
             ? //
               {
                 ...offer.takerPaid,
-                value: String(Number.parseFloat(offer.takerPaid.value) + Number.parseFloat(amm.ammGot.value)),
+                value: new Decimal(offer.takerPaid.value).abs().plus(new Decimal(amm.ammGot.value).abs()).toString(),
               }
             : offer
               ? offer.takerPaid
@@ -68,7 +70,7 @@ export const pathParser = (
           offer && amm
             ? {
                 ...offer.takerGot,
-                value: String(Number.parseFloat(offer.takerGot.value) + Number.parseFloat(amm.ammPaid.value)),
+                value: new Decimal(offer.takerGot.value).abs().plus(new Decimal(amm.ammPaid.value).abs()).toString(),
               }
             : offer
               ? offer.takerGot
