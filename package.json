@@ -24,7 +24,14 @@
     "test": "vitest"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "tequ",
+    "url": "https://github.com/tequdev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tequdev/xrpl-tx-path-parser.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "^1.7.1",
