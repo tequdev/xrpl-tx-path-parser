@@ -134,8 +134,7 @@ export const pathParser = (
     destinationAmount,
     paths,
     offerChanges,
-    accountBalanceChanges,
-    ammAccounts
+    accountBalanceChanges
   }
 
   return result
