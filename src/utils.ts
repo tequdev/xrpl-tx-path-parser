@@ -44,6 +44,7 @@ export const getOfferChangesAmount = (tx: TxResponse['result']) => {
 }
 
 export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
+  console.log('debug', meta)
   const modifiedAMMNodes = meta.AffectedNodes.filter(
     (node) =>
       isModifiedNode(node) &&
