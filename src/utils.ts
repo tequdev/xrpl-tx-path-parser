@@ -20,7 +20,7 @@ export type Response = {
   destinationAccount: string
   sourceAmount: Balance
   destinationAmount: Balance
-  offerChanges: any,
+  offerExchanges: any,
   accountBalanceChanges: any,
   paths: {
     from: Balance
@@ -38,8 +38,8 @@ const lsfAMMNode = 0x01000000
 export const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
   a.issuer === b.issuer && a.currency === b.currency
 
-export const getOfferChangesAmount = (tx: TxResponse['result']) => {
-  return extractExchanges(tx, { collapse: true }) as Record<'takerPaid' | 'takerGot', Balance>[]
+export const getOfferChangesAmount = (tx: TxResponse['result'], collapsed: Boolean = false) => {
+  return extractExchanges(tx, { collapse: collapsed }) as Record<'takerPaid' | 'takerGot', Balance>[]
 }
 
 export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
