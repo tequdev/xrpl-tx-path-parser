@@ -22,7 +22,15 @@ export type Response = {
   destinationAmount: Balance
   offerExchanges: any,
   accountBalanceChanges: any,
-  paths: any
+  paths: {
+    from: Balance
+    to: Balance
+    type: {
+      offer: boolean
+      amm: boolean
+      rippling: boolean
+    }
+  }[][]
 }
 
 const lsfAMMNode = 0x01000000
