@@ -60,11 +60,11 @@ export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
   return unique
 }
 
-export const getAccountBalanceChanges = (tx: TxResponse['result']) => {
-  const ammAccounts = getAmmAccounts(<PaymentMetadata> tx.meta)
+export const getAccountBalanceChanges = (tx: TxResponse['result'], meta: TransactionMetadata) => {
+  const ammAccounts = getAmmAccounts(meta)
   const exchanges = extractExchanges(tx, { collapse: false })
 
-  return getBalanceChanges(<PaymentMetadata> tx.meta).map((change) => {
+  return getBalanceChanges(meta).map((change) => {
     const isAMM = ammAccounts.includes(change.account)
     const isOffer = exchanges.filter( (offer: { maker: string }) => offer.maker === change.account).length > 0
     const isRippling = !(isAMM || isOffer) && tx.Account !== change.account
