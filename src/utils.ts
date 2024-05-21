@@ -38,7 +38,7 @@ const lsfAMMNode = 0x01000000
 export const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
   a.issuer === b.issuer && a.currency === b.currency
 
-export const getOfferChangesAmount = (tx: TxResponse['result'], collapsed: Boolean = false) => {
+export const getOfferChangesAmount = (tx: TxResponse['result'], collapsed: Boolean = true) => {
   return extractExchanges(tx, { collapse: collapsed }) as Record<'takerPaid' | 'takerGot', Balance>[]
 }
 
