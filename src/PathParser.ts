@@ -9,7 +9,7 @@ export const pathParser = (
   sourceAmount: Balance,
   destinationAccount: string,
   destinationAmount: Balance,
-  txPaths: Path[],
+  txPaths: Path[]
 ) => {
   if (typeof tx.meta !== 'object') throw new Error('Invalid transaction metadata')
 

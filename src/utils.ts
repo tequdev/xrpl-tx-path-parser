@@ -20,6 +20,9 @@ export type Response = {
   destinationAccount: string
   sourceAmount: Balance
   destinationAmount: Balance
+  offerChanges: any,
+  accountBalanceChanges: any,
+  ammAccounts: any,
   paths: {
     from: Balance
     to: Balance
