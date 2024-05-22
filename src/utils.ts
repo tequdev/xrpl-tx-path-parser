@@ -67,12 +67,14 @@ export const getAccountBalanceChanges = (tx: TxResponse['result'], meta: Transac
   return getBalanceChanges(meta).map((change) => {
     const isAMM = ammAccounts.includes(change.account)
     const isOffer = exchanges.filter( (offer: { maker: string }) => offer.maker === change.account).length > 0
-    const isRippling = !(isAMM || isOffer) && tx.Account !== change.account
+    const isDirect = change.balances.length === 1
+    const isRippling = !(isAMM || isOffer || isDirect)
     return {
       ...change,
       isAMM,
       isOffer,
-      isRippling
+      isRippling,
+      isDirect
     }
   })
 }
