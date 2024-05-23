@@ -20,6 +20,8 @@ export type Response = {
   destinationAccount: string
   sourceAmount: Balance
   destinationAmount: Balance
+  offerExchanges: any,
+  accountBalanceChanges: any,
   paths: {
     from: Balance
     to: Balance
@@ -36,8 +38,8 @@ const lsfAMMNode = 0x01000000
 export const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
   a.issuer === b.issuer && a.currency === b.currency
 
-export const getOfferChangesAmount = (tx: TxResponse['result']) => {
-  return extractExchanges(tx, { collapse: true }) as Record<'takerPaid' | 'takerGot', Balance>[]
+export const getOfferChangesAmount = (tx: TxResponse['result'], collapsed: Boolean = true) => {
+  return extractExchanges(tx, { collapse: collapsed }) as Record<'takerPaid' | 'takerGot', Balance>[]
 }
 
 export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
@@ -58,12 +60,21 @@ export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
   return unique
 }
 
-export const getAccountBalanceChanges = (meta: TransactionMetadata) => {
+export const getAccountBalanceChanges = (tx: TxResponse['result'], meta: TransactionMetadata) => {
   const ammAccounts = getAmmAccounts(meta)
+  const exchanges = extractExchanges(tx, { collapse: false })
+
   return getBalanceChanges(meta).map((change) => {
+    const isAMM = ammAccounts.includes(change.account)
+    const isOffer = exchanges.filter( (offer: { maker: string }) => offer.maker === change.account).length > 0
+    const isDirect = change.balances.length === 1
+    const isRippling = !(isAMM || isOffer || isDirect)
     return {
       ...change,
-      isAMM: ammAccounts.includes(change.account),
+      isAMM,
+      isOffer,
+      isRippling,
+      isDirect
     }
   })
 }
