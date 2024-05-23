@@ -9,13 +9,13 @@ export const pathParser = (
   sourceAmount: Balance,
   destinationAccount: string,
   destinationAmount: Balance,
-  txPaths: Path[]
+  txPaths: Path[],
 ) => {
   if (typeof tx.meta !== 'object') throw new Error('Invalid transaction metadata')
 
   const offerChanges = getOfferChangesAmount(tx)
   const offerExchanges = getOfferChangesAmount(tx, false)
-  const accountBalanceChanges = getAccountBalanceChanges(tx, tx.meta)
+  const accountBalanceChanges = getAccountBalanceChanges(tx)
 
   const ammAccounts = getAmmAccounts(tx.meta)
 
@@ -135,7 +135,7 @@ export const pathParser = (
     destinationAmount,
     paths,
     offerExchanges,
-    accountBalanceChanges
+    accountBalanceChanges,
   }
 
   return result

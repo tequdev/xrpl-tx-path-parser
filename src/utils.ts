@@ -5,8 +5,6 @@ import {
   type Balance,
   type Currency,
   type ModifiedNode,
-  type Payment,
-  type TransactionMetadata,
   type TxResponse,
   dropsToXrp,
   getBalanceChanges,
@@ -15,22 +13,40 @@ import {
 import type { RippleState } from 'xrpl/dist/npm/models/ledger'
 import type { PaymentMetadata } from 'xrpl/dist/npm/models/transactions/payment'
 
+export type OfferExchange = {
+  hash: string
+  maker: string
+  taker: string
+  sequence: number
+  takerPaid: Balance
+  takerGot: Balance
+}
+export type AccountBalanceChange = {
+  isAMM: boolean
+  isOffer: boolean
+  isRippling: boolean
+  isDirect: boolean
+  account: string
+  balances: Balance[]
+}
+export type Path = {
+  from: Balance
+  to: Balance
+  type: {
+    offer: boolean
+    amm: boolean
+    rippling: boolean
+  }
+}[]
+
 export type Response = {
   sourceAccount: string
   destinationAccount: string
   sourceAmount: Balance
   destinationAmount: Balance
-  offerExchanges: any,
-  accountBalanceChanges: any,
-  paths: {
-    from: Balance
-    to: Balance
-    type: {
-      offer: boolean
-      amm: boolean
-      rippling: boolean
-    }
-  }[][]
+  offerExchanges: OfferExchange[]
+  accountBalanceChanges: AccountBalanceChange[]
+  paths: Path[]
 }
 
 const lsfAMMNode = 0x01000000
@@ -38,8 +54,8 @@ const lsfAMMNode = 0x01000000
 export const equalCurrency = (a: Balance | Currency, b: Balance | Currency) =>
   a.issuer === b.issuer && a.currency === b.currency
 
-export const getOfferChangesAmount = (tx: TxResponse['result'], collapsed: Boolean = true) => {
-  return extractExchanges(tx, { collapse: collapsed }) as Record<'takerPaid' | 'takerGot', Balance>[]
+export const getOfferChangesAmount = (tx: TxResponse['result'], collapsed = true) => {
+  return extractExchanges(tx, { collapse: collapsed }) as OfferExchange[]
 }
 
 export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
@@ -60,13 +76,16 @@ export const getAmmAccounts = (meta: PaymentMetadata): string[] => {
   return unique
 }
 
-export const getAccountBalanceChanges = (tx: TxResponse['result'], meta: TransactionMetadata) => {
-  const ammAccounts = getAmmAccounts(meta)
+export const getAccountBalanceChanges = (tx: TxResponse['result']) => {
+  if (!tx.meta) throw new Error('Transaction metadata not found')
+  if (typeof tx.meta === 'string') throw new Error('Transaction metadata should be an object')
+
+  const ammAccounts = getAmmAccounts(tx.meta)
   const exchanges = extractExchanges(tx, { collapse: false })
 
-  return getBalanceChanges(meta).map((change) => {
+  return getBalanceChanges(tx.meta).map((change) => {
     const isAMM = ammAccounts.includes(change.account)
-    const isOffer = exchanges.filter( (offer: { maker: string }) => offer.maker === change.account).length > 0
+    const isOffer = exchanges.filter((offer: { maker: string }) => offer.maker === change.account).length > 0
     const isDirect = change.balances.length === 1
     const isRippling = !(isAMM || isOffer || isDirect)
     return {
@@ -74,7 +93,7 @@ export const getAccountBalanceChanges = (tx: TxResponse['result'], meta: Transac
       isAMM,
       isOffer,
       isRippling,
-      isDirect
+      isDirect,
     }
   })
 }

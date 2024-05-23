@@ -35,7 +35,7 @@ const createOfferCreatePaths = (source: Balance, destination: Balance): Path[] =
 export const parseOfferCreate = (tx: TxResponse<OfferCreate>['result']) => {
   if (typeof tx.meta !== 'object') throw new Error('Invalid transaction metadata')
 
-  const accountBalanceChanges = getAccountBalanceChanges(tx, tx.meta)
+  const accountBalanceChanges = getAccountBalanceChanges(tx)
   const balances = accountBalanceChanges.find((change) => change.account === tx.Account)?.balances
   const ammBalanceChanges = accountBalanceChanges.filter((change) => change.isAMM)
 
